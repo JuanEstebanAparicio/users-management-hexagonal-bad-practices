@@ -1,16 +1,24 @@
 package com.jcaa.usersmanagement.domain.valueobject;
 
+import java.util.Objects;
+
 import com.jcaa.usersmanagement.domain.exception.InvalidUserNameException;
 
 public record UserName(String value) {
 
-  // VIOLACIÓN Regla 10: se eliminó la constante MINIMUM_LENGTH — se usa magic number directamente
+  // VIOLACIÓN Regla 10: se eliminó la constante MINIMUM_LENGTH — se usa magic
+  // number directamente
+  private static final int MINIMUM_LENGTH = 3; // MAGIC NUMBER, should be a constant
+  // CORREGIDO
+
   public UserName {
-    // VIOLACIÓN Regla 4: se usa == null en lugar de Objects.requireNonNull() o Objects.isNull().
-    // Para objetos siempre debe usarse Objects.isNull/nonNull, nunca operadores == o !=.
-    if (value == null) {
-      throw new NullPointerException("UserName cannot be null");
-    }
+    // VIOLACIÓN Regla 4: se usa == null en lugar de Objects.requireNonNull() o
+    // Objects.isNull().
+    // Para objetos siempre debe usarse Objects.isNull/nonNull, nunca operadores ==
+    // o !=.
+    // CORREGIDO
+    Objects.requireNonNull(value, "UserName cannot be null");
+
     final String normalizedValue = value.trim();
     validateNotEmpty(normalizedValue);
     validateMinimumLength(normalizedValue);
@@ -24,9 +32,12 @@ public record UserName(String value) {
   }
 
   private static void validateMinimumLength(final String normalizedValue) {
-    // VIOLACIÓN Regla 10: magic number 3 — debería usarse una constante con nombre descriptivo
-    if (normalizedValue.length() < 3) {
-      throw InvalidUserNameException.becauseLengthIsTooShort(3);
+    // VIOLACIÓN Regla 10: magic number 3 — debería usarse una constante con nombre
+    // descriptivo
+
+    // CORREGIDO
+    if (normalizedValue.length() < MINIMUM_LENGTH) {
+      throw InvalidUserNameException.becauseLengthIsTooShort(MINIMUM_LENGTH);
     }
   }
 
