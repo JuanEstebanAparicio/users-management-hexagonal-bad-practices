@@ -6,8 +6,13 @@ public final class InvalidUserStatusException extends DomainException {
     super(message);
   }
 
+  // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
+  // CORREGIDO
+  private static final String MSG_USER_STATUS_INVALID = "The user status '%s' is not valid.";
+
   public static InvalidUserStatusException becauseValueIsInvalid(final String status) {
     // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
-    return new InvalidUserStatusException(String.format("The user status '%s' is not valid.", status));
+    // CORREGIDO
+    return new InvalidUserStatusException(String.format(MSG_USER_STATUS_INVALID, status));
   }
 }

@@ -6,8 +6,13 @@ public final class InvalidUserRoleException extends DomainException {
     super(message);
   }
 
+  // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
+  // CORREGIDO
+  private static final String MSG_USER_ROLE_INVALID = "The user role '%s' is not valid.";
+
   public static InvalidUserRoleException becauseValueIsInvalid(final String role) {
     // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
-    return new InvalidUserRoleException(String.format("The user role '%s' is not valid.", role));
+    // CORREGIDO
+    return new InvalidUserRoleException(String.format(MSG_USER_ROLE_INVALID, role));
   }
 }
